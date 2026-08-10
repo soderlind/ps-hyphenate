@@ -2,6 +2,10 @@
 
 All notable changes to PS Hyphenate are documented in this file.
 
+## 1.0.5 - 2026-08-10
+
+- Refactor internal string handling to centralize multibyte helpers; no functional changes.
+
 ## 1.0.4
 
 - Prioritize inserted soft hyphens by marking processed elements, allowing server mode without native CSS hyphenation, preserving visible compound hyphens from double hyphen exceptions, and normalizing duplicate soft hyphen opportunities.

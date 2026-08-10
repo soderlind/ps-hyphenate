@@ -191,11 +191,7 @@ final class Hyphenator {
 	private function normalize_word( $word ) {
 		$word = str_replace( self::SOFT_HYPHEN, '', trim( $word ) );
 
-		if ( function_exists( 'mb_strtolower' ) ) {
-			return mb_strtolower( $word, 'UTF-8' );
-		}
-
-		return strtolower( $word );
+		return $this->lower( $word );
 	}
 
 	/**
@@ -394,6 +390,36 @@ final class Hyphenator {
 	}
 
 	/**
+	 * Lowercase text safely.
+	 *
+	 * @param string $value Value.
+	 * @return string
+	 */
+	private function lower( $value ) {
+		if ( function_exists( 'mb_strtolower' ) ) {
+			return mb_strtolower( $value, 'UTF-8' );
+		}
+
+		return strtolower( $value );
+	}
+
+	/**
+	 * Extract a substring safely.
+	 *
+	 * @param string   $value Value.
+	 * @param int      $start Start offset.
+	 * @param int|null $length Length.
+	 * @return string
+	 */
+	private function substring( $value, $start, $length = null ) {
+		if ( function_exists( 'mb_substr' ) ) {
+			return mb_substr( $value, $start, $length, 'UTF-8' );
+		}
+
+		return substr( $value, $start, $length );
+	}
+
+	/**
 	 * Avoid words that are likely not prose.
 	 *
 	 * @param string $word Word.
@@ -415,18 +441,13 @@ final class Hyphenator {
 			return $this->uppercase( $replacement );
 		}
 
-		$first_original = function_exists( 'mb_substr' ) ? mb_substr( $original, 0, 1, 'UTF-8' ) : substr( $original, 0, 1 );
-		$first_lower    = function_exists( 'mb_strtolower' ) ? mb_strtolower( $first_original, 'UTF-8' ) : strtolower( $first_original );
+		$first_original = $this->substring( $original, 0, 1 );
 
-		if ( $first_original === $first_lower ) {
+		if ( $first_original === $this->lower( $first_original ) ) {
 			return $replacement;
 		}
 
-		$first_replacement = function_exists( 'mb_substr' ) ? mb_substr( $replacement, 0, 1, 'UTF-8' ) : substr( $replacement, 0, 1 );
-		$rest              = function_exists( 'mb_substr' ) ? mb_substr( $replacement, 1, null, 'UTF-8' ) : substr( $replacement, 1 );
-		$first_replacement = function_exists( 'mb_strtoupper' ) ? mb_strtoupper( $first_replacement, 'UTF-8' ) : strtoupper( $first_replacement );
-
-		return $first_replacement . $rest;
+		return $this->uppercase( $this->substring( $replacement, 0, 1 ) ) . $this->substring( $replacement, 1 );
 	}
 
 	/**
@@ -449,10 +470,7 @@ final class Hyphenator {
 	 * @return bool
 	 */
 	private function is_uppercase( $word ) {
-		$lower = function_exists( 'mb_strtolower' ) ? mb_strtolower( $word, 'UTF-8' ) : strtolower( $word );
-		$upper = function_exists( 'mb_strtoupper' ) ? mb_strtoupper( $word, 'UTF-8' ) : strtoupper( $word );
-
-		return $word === $upper && $word !== $lower;
+		return $word === $this->uppercase( $word ) && $word !== $this->lower( $word );
 	}
 
 	/**

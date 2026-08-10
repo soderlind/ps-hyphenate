@@ -4,7 +4,7 @@ Tags: hyphenation, soft hyphen, typography, compound words, wrapping
 Requires at least: 6.8
 Tested up to: 7.0
 Requires PHP: 8.3
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -77,6 +77,9 @@ Prefix the entry with a locale code: `nb_NO:my-hyphen-ated-word`
 Yes. When installed via Composer or with the vendor folder included, the plugin checks GitHub for new releases and offers updates through the standard WordPress plugin update mechanism.
 
 == Changelog ==
+
+= 1.0.5 =
+* Refactor internal string handling to centralize multibyte helpers; no functional changes.
 
 = 1.0.4 =
 * Prioritize inserted soft hyphens by marking processed elements, allowing server mode without native CSS hyphenation, preserving visible compound hyphens from double hyphen exceptions, and normalizing duplicate soft hyphen opportunities.

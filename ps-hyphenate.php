@@ -2,7 +2,7 @@
 /**
  * Plugin Name: PS Hyphenate
  * Description: Improves wrapping of long compound words with native hyphenation and optional render-time soft hyphen exceptions.
- * Version: 1.0.4
+ * Version: 1.0.5
  * Requires at least: 6.8
  * Requires PHP: 8.3
  * Author: Per Soderlind
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'PS_HYPHENATE_VERSION', '1.0.4' );
+define( 'PS_HYPHENATE_VERSION', '1.0.5' );
 define( 'PS_HYPHENATE_FILE', __FILE__ );
 define( 'PS_HYPHENATE_PATH', plugin_dir_path( __FILE__ ) );
 define( 'PS_HYPHENATE_URL', plugin_dir_url( __FILE__ ) );
